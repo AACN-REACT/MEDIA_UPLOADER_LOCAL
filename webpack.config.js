@@ -3,14 +3,13 @@ const htmlwebpackplugin = require("html-webpack-plugin");
 const cleanwebpackplugin = require("clean-webpack-plugin").CleanWebpackPlugin;
 const miniextractplugin = require("mini-css-extract-plugin");
 module.exports = function (env) {
+    console.log(env)
   return {
     entry: { index: "./src/index.tsx" },
-    output: {
-      filename: "[name][contentHash].js",
-      path: path.resolve(__dirname, "dist"),
-    },
-    optimization: {
-      runtimeChunk: "single",
+      output: {
+    publicPath:"/assets/",
+      filename: "js/site.js",
+          path: env.production ? path.resolve(__dirname, '../../Aacn.VideoUploader.Presentation.React/wwwroot'): path.resolve(__dirname, "dist")  ,
     },
     resolve: {
       extensions: [".ts", ".tsx", ".js", "jsx"],
@@ -31,8 +30,8 @@ module.exports = function (env) {
         },
         {
           test: /\.scss?$/,
-          exclude: /node_modules/,
-          use: [miniextractplugin.loader, "css-loader", "sass-loader"],
+            exclude: /node_modules/,
+            use: [{ loader: miniextractplugin.loader, options: { publicPath: "assets" } }, "css-loader", "sass-loader"],
         },
       ],
       // rules: [{ test: /\.tsx?/, exclude: /node_modules/, use: "ts-loader" }],
@@ -42,7 +41,9 @@ module.exports = function (env) {
       port: 3000,
     },
     plugins: [
-      new miniextractplugin(),
+        new miniextractplugin({
+            filename:'/css/site.css'
+        }),
       new htmlwebpackplugin({
         template: "./public/index.html",
       }),

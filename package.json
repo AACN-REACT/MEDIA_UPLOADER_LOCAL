@@ -5,9 +5,10 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build:dev": "webpack --mode development",
-    "build:prod": "webpack --mode production",
-    "serve": "webpack-dev-server"
+    "build:dev": "webpack --mode development --env.development",
+    "build:prod": "webpack --mode production --env.production",
+    "serve": "webpack-dev-server --env.development --open",
+    "greeting": "echo hello"
   },
   "keywords": [
     "media",
