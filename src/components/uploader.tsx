@@ -1,58 +1,36 @@
 import * as React from "react";
 //import icon from '../icon.gif'
-
+import { dragenter, dragleave, dragover, drop, pick } from "../utils/eventhandlers";
+import * as network from "../utils/networkrequests";
+import {FileList} from './filelist.jsx'
+import {FileInput} from './fileinput.jsx'
+import {Table} from './table.tsx'
 export function Uploader() {
   const [files, addFile] = React.useState([]);
-  const styles = {
-    width: "1000px",
-    height: "1000px",
-    textAlign: "center",
-    backgroundColor: "lightgray",
-    color: "white",
-    fontSize: "2rem",
-  };
-
-  function dragenter(e) {
-    e.persist();
-    e.preventDefault();
-    e.stopPropagation();
-    e.dataTransfer.effect = "copy";
-    e.target.style.backgroundColor = "pink";
-  }
-  function dragover(e) {
-    e.persist();
-    e.preventDefault();
-    e.stopPropagation();
-    e.target.style.backgroundColor = "yellow";
-  }
-  function dragleave(e) {
-    e.persist();
-    e.preventDefault();
-    e.stopPropagation();
-    e.target.style.backgroundColor = "red";
-    console.log(">>>ITEMS", e.dataTransfer.items);
-    console.log(">>>LIST", e.dataTransfer.items);
-  }
-  function drop(e) {
-    e.persist();
-    e.preventDefault();
-    e.stopPropagation();
-    e.dataTransfer;
-  }
 
   return (
     <div>
-      <ul></ul>
+    <div className="center-content">
       <div
         className="uploader"
         onDragEnter={dragenter}
         onDragLeave={dragleave}
         onDragOver={dragover}
-        onDrop={drop}
+        onDrop={(e) => {
+          drop(
+            e,
+            "https://www.googleapis.com/upload/drive/v3/files?uploadType=media",
+            true,
+            addFile
+          );
+        }}
       >
         {`Drag your files here
     to upload`}
+<FileInput handler={pick} stateSetter={addFile}/>
       </div>
     </div>
+<FileList files={files}/>
+</div>
   );
 }

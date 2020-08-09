@@ -1,0 +1,9 @@
+/* hello */
+.uploader {
+  width: 1000px;
+  height: 1000px;
+  text-align: center;
+  background-color: lightgray;
+  color: white;
+  font-size: 2rem;
+}
